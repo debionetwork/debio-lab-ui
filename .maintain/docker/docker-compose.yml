@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  web:
+    container_name: debio-lab-ui
+    image: debionetwork/debio-lab-ui
+    build:
+      context: ../../
+      dockerfile: .maintain/docker/Dockerfile
+    env_file:
+      - ../../.env
+    environment:
+      - HOST=0.0.0.0
+      - PORT=80
+    ports:
+      - 8086:80
+    networks:
+      debio:
+        ipv4_address: 172.27.1.6
+        aliases:
+          - debio-lab-ui
+
+networks:
+  debio:
+    external: true
