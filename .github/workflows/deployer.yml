@@ -24,7 +24,7 @@ jobs:
       latest_tag: ${{ steps.build-info.outputs.latest_tag }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Compute build info
@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: Checkout code
         if: "${{ env.DEPLOY == 'true' }}"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Deploy
@@ -63,7 +63,7 @@ jobs:
             ./connect.sh
             helm repo add debio https://charts.debio.network
             helm repo update
-            helm upgrade debio-genetic-analyst-ui debio/debio-genetic-analyst-ui \
+            helm upgrade debio-lab-ui debio/debio-lab-ui \
               --install \
               --set-string image.repository=gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.repository }} \
               --set-string image.tag=${{ needs.compute-build-info.outputs.sha_short }} \
@@ -75,7 +75,7 @@ jobs:
               --set-string ingress.hosts[0].host=${{ secrets.INGRESS_HOST }} \
               --set-string ingress.hosts[0].paths[0].path=/ \
               --set-string ingress.hosts[0].paths[0].pathType=ImplementationSpecific \
-              --set-string ingress.tls[0].secretName=debio-genetic-analyst-ui-tls \
+              --set-string ingress.tls[0].secretName=debio-lab-ui-tls \
               --set-string ingress.tls[0].hosts[0]=${{ secrets.INGRESS_HOST }} \
               --set-string resources.requests.cpu=100m \
               --set-string resources.requests.memory=256Mi \
@@ -86,7 +86,7 @@ jobs:
               --set autoscaling.minReplicas=1 \
               --set autoscaling.maxReplicas=11 \
               --set-string nodeSelector.pool=general
-            kubectl rollout status deployment/debio-genetic-analyst-ui
+            kubectl rollout status deployment/debio-lab-ui
 
   deploy-alpha-release:
     if: "github.event.release.prerelease && contains(needs.compute-build-info.outputs.latest_tag, 'alpha')"
@@ -98,7 +98,7 @@ jobs:
     steps:
       - name: Checkout code
         if: "${{ env.DEPLOY == 'true' }}"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Deploy
@@ -113,7 +113,7 @@ jobs:
             ./connect.sh
             helm repo add debio https://charts.debio.network
             helm repo update
-            helm upgrade debio-genetic-analyst-ui debio/debio-genetic-analyst-ui \
+            helm upgrade debio-lab-ui debio/debio-lab-ui \
               --install \
               --set-string image.repository=gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.repository }} \
               --set-string image.tag=${{ needs.compute-build-info.outputs.latest_tag }} \
@@ -125,7 +125,7 @@ jobs:
               --set-string ingress.hosts[0].host=${{ secrets.INGRESS_HOST }} \
               --set-string ingress.hosts[0].paths[0].path=/ \
               --set-string ingress.hosts[0].paths[0].pathType=ImplementationSpecific \
-              --set-string ingress.tls[0].secretName=debio-genetic-analyst-ui-tls \
+              --set-string ingress.tls[0].secretName=debio-lab-ui-tls \
               --set-string ingress.tls[0].hosts[0]=${{ secrets.INGRESS_HOST }} \
               --set-string resources.requests.cpu=100m \
               --set-string resources.requests.memory=256Mi \
@@ -136,7 +136,7 @@ jobs:
               --set autoscaling.minReplicas=1 \
               --set autoscaling.maxReplicas=11 \
               --set-string nodeSelector.pool=general
-            kubectl rollout status deployment/debio-genetic-analyst-ui
+            kubectl rollout status deployment/debio-lab-ui
 
   deploy-beta-release:
     if: "github.event.release.prerelease && contains(needs.compute-build-info.outputs.latest_tag, 'beta')"
@@ -148,7 +148,7 @@ jobs:
     steps:
       - name: Checkout code
         if: "${{ env.DEPLOY == 'true' }}"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Deploy
@@ -163,7 +163,7 @@ jobs:
             ./connect.sh
             helm repo add debio https://charts.debio.network
             helm repo update
-            helm upgrade debio-genetic-analyst-ui debio/debio-genetic-analyst-ui \
+            helm upgrade debio-lab-ui debio/debio-lab-ui \
               --install \
               --set-string image.repository=gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.repository }} \
               --set-string image.tag=${{ needs.compute-build-info.outputs.latest_tag }} \
@@ -175,7 +175,7 @@ jobs:
               --set-string ingress.hosts[0].host=${{ secrets.INGRESS_HOST }} \
               --set-string ingress.hosts[0].paths[0].path=/ \
               --set-string ingress.hosts[0].paths[0].pathType=ImplementationSpecific \
-              --set-string ingress.tls[0].secretName=debio-genetic-analyst-ui-tls \
+              --set-string ingress.tls[0].secretName=debio-lab-ui-tls \
               --set-string ingress.tls[0].hosts[0]=${{ secrets.INGRESS_HOST }} \
               --set-string resources.requests.cpu=100m \
               --set-string resources.requests.memory=256Mi \
@@ -186,7 +186,7 @@ jobs:
               --set autoscaling.minReplicas=1 \
               --set autoscaling.maxReplicas=11 \
               --set-string nodeSelector.pool=general
-            kubectl rollout status deployment/debio-genetic-analyst-ui
+            kubectl rollout status deployment/debio-lab-ui
 
   deploy-pre-release:
     if: "github.event.release.prerelease && contains(needs.compute-build-info.outputs.latest_tag, 'rc')"
@@ -198,7 +198,7 @@ jobs:
     steps:
       - name: Checkout code
         if: "${{ env.DEPLOY == 'true' }}"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Deploy
@@ -213,7 +213,7 @@ jobs:
             ./connect.sh
             helm repo add debio https://charts.debio.network
             helm repo update
-            helm upgrade debio-genetic-analyst-ui debio/debio-genetic-analyst-ui \
+            helm upgrade debio-lab-ui debio/debio-lab-ui \
               --install \
               --set-string image.repository=gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.repository }} \
               --set-string image.tag=${{ needs.compute-build-info.outputs.latest_tag }} \
@@ -225,7 +225,7 @@ jobs:
               --set-string ingress.hosts[0].host=${{ secrets.INGRESS_HOST }} \
               --set-string ingress.hosts[0].paths[0].path=/ \
               --set-string ingress.hosts[0].paths[0].pathType=ImplementationSpecific \
-              --set-string ingress.tls[0].secretName=debio-genetic-analyst-ui-tls \
+              --set-string ingress.tls[0].secretName=debio-lab-ui-tls \
               --set-string ingress.tls[0].hosts[0]=${{ secrets.INGRESS_HOST }} \
               --set-string resources.requests.cpu=100m \
               --set-string resources.requests.memory=256Mi \
@@ -236,7 +236,7 @@ jobs:
               --set autoscaling.minReplicas=2 \
               --set autoscaling.maxReplicas=11 \
               --set-string nodeSelector.pool=general
-            kubectl rollout status deployment/debio-genetic-analyst-ui
+            kubectl rollout status deployment/debio-lab-ui
 
   deploy-release:
     if: "startsWith(github.ref, 'refs/tags/') && !github.event.release.prerelease"
@@ -248,7 +248,7 @@ jobs:
     steps:
       - name: Checkout code
         if: "${{ env.DEPLOY == 'true' }}"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Deploy
@@ -263,7 +263,7 @@ jobs:
             ./connect.sh
             helm repo add debio https://charts.debio.network
             helm repo update
-            helm upgrade debio-genetic-analyst-ui debio/debio-genetic-analyst-ui \
+            helm upgrade debio-lab-ui debio/debio-lab-ui \
               --install \
               --set-string image.repository=gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.repository }} \
               --set-string image.tag=${{ needs.compute-build-info.outputs.latest_tag }} \
@@ -275,7 +275,7 @@ jobs:
               --set-string ingress.hosts[0].host=${{ secrets.INGRESS_HOST }} \
               --set-string ingress.hosts[0].paths[0].path=/ \
               --set-string ingress.hosts[0].paths[0].pathType=ImplementationSpecific \
-              --set-string ingress.tls[0].secretName=debio-genetic-analyst-ui-tls \
+              --set-string ingress.tls[0].secretName=debio-lab-ui-tls \
               --set-string ingress.tls[0].hosts[0]=${{ secrets.INGRESS_HOST }} \
               --set-string resources.requests.cpu=100m \
               --set-string resources.requests.memory=256Mi \
@@ -286,4 +286,4 @@ jobs:
               --set autoscaling.minReplicas=2 \
               --set autoscaling.maxReplicas=11 \
               --set-string nodeSelector.pool=general
-            kubectl rollout status deployment/debio-genetic-analyst-ui
+            kubectl rollout status deployment/debio-lab-ui

@@ -66,4 +66,4 @@ Run the following command.
 ```sh
 ./.maintain/docker/start-docker-compose.sh
 ```
-Open http://127.0.0.1:8085 in your browser.
+Open http://127.0.0.1:8087 in your browser.
