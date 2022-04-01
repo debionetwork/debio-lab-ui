@@ -2,7 +2,6 @@
 FROM node:16.11.1 as build-stage
 WORKDIR /app
 COPY package*.json ./
-RUN npm config set '@bit:registry' https://node.bit.dev
 RUN npm install
 COPY . .
 RUN npm run build
